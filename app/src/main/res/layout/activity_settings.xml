@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/settings_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/settings_mode_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Mode 1" />
+
+        <RadioButton
+            android:id="@+id/settings_mode_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mode 2" />
+
+    </RadioGroup>
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timeout (in seconds): "
+        android:textColor="@color/colorAccent" />
+
+    <com.rey.material.widget.Slider
+        android:id="@+id/settings_timeoutSlider"
+        style="@style/Material.Widget.Slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        app:sl_discreteMode="true"
+        app:sl_maxValue="120"
+        app:sl_minValue="0"
+        app:sl_stepValue="10"
+        app:sl_value="10" />
+
+</LinearLayout>

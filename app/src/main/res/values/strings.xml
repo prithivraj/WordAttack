@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WordAttack</string>
+    <string name="buttonhint_pause">Pause</string>
 </resources>
