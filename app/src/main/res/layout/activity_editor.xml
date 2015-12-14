@@ -16,25 +16,26 @@
         android:layout_height="wrap_content">
 
         <com.beardedhen.androidbootstrap.BootstrapProgressBar
+            android:id="@+id/main_timer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:layout_weight="1"
             app:animated="true"
-            app:bootstrapBrand="warning"
+            app:bootstrapBrand="primary"
             app:progress="100"
+            app:roundedCorners="true"
             app:striped="true" />
 
         <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/main_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            app:bootstrapBrand="success"
+            app:bootstrapBrand="primary"
             app:bootstrapSize="md"
-            app:buttonMode="regular"
             app:fontAwesomeIcon="fa_pause"
-            app:roundedCorners="true"
             app:showOutline="false" />
     </LinearLayout>
 
@@ -45,7 +46,8 @@
         android:background="@android:color/white"
         android:padding="5dp">
 
-        <EditText
+        <com.extremeboredom.wordattack.utils.TimerEditText
+            android:id="@+id/main_editor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#FFFFFF"

@@ -4,13 +4,20 @@
  */
 package com.extremeboredom.wordattack;
 
+import android.app.Activity;
 import android.os.CountDownTimer;
 
+import com.extremeboredom.wordattack.punishment.Punishment;
+import com.extremeboredom.wordattack.utils.ToastUtils;
+
 public class TimerHandler {
-    private static int timeout = -1;
-    private static int ONE_SECOND = 1000;
+    private static long timeout = -1;
+    private static long ONE_SECOND = 100;
     private static CountDownTimer waitTimer = null;
     private static TimerHandler ourInstance = new TimerHandler();
+    private static Punishment currentPunishment = null;
+    private static long lastTickedTime = 0;
+
 
     private TimerHandler() {
     }
@@ -19,30 +26,52 @@ public class TimerHandler {
         return ourInstance;
     }
 
-    public void start(int timeOut) {
-        timeout = timeOut;
-        startClock();
+    public void resume() {
+        if (currentPunishment == null) {
+            return;
+        }
+        waitTimer = createNewTimer(lastTickedTime);
+        waitTimer.start();
     }
 
-    private void startClock() {
-        waitTimer = new CountDownTimer(timeout, ONE_SECOND) {
-
+    private CountDownTimer createNewTimer(long startTime) {
+        return new CountDownTimer(startTime, ONE_SECOND) {
             public void onTick(long millisUntilFinished) {
-                //called every ONE_SECOND milliseconds, which could be used to
-                //TODO: Update timer
+                lastTickedTime = millisUntilFinished;
+                float percentage = (int) (((float) millisUntilFinished / timeout) * 100);
+                ViewObjectsHolder.getProgressBar().setProgress((int) percentage);
             }
 
             public void onFinish() {
-                //After timeout milliseconds (60 sec) finish current
-                //TODO: Show punishment
+                ViewObjectsHolder.getProgressBar().setProgress(0);
+                Activity activity = ViewObjectsHolder.getActivityInstance();
+                if (activity.hasWindowFocus()) {
+                    currentPunishment.punish(ViewObjectsHolder.getActivityInstance());
+                } else {
+                    ToastUtils.makeToastLong(activity, "Hi!");
+                    //TODO: Send push notification
+                }
             }
-        }.start();
+        };
+    }
+    public void resetClock() {
+        if (waitTimer != null) {
+            waitTimer.cancel();
+        }
+        startCountDown(currentPunishment, timeout);
     }
 
-    public void resetClock() {
-        if (waitTimer == null) {
-            return;
+    public void pauseClock() {
+        if (waitTimer != null) {
+            waitTimer.cancel();
         }
-        waitTimer.onTick(timeout);
+        return;
+    }
+
+    public void startCountDown(Punishment p, long secs) {
+        timeout = secs;
+        lastTickedTime = secs;
+        currentPunishment = p;
+        resume();
     }
 }

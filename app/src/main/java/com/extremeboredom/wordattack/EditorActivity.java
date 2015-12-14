@@ -7,6 +7,8 @@ import android.widget.RadioGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
+import com.extremeboredom.wordattack.callbacks.PauseButtonClickListner;
+import com.extremeboredom.wordattack.punishment.DialogPunishment;
 import com.rey.material.widget.Slider;
 
 public class EditorActivity extends AppCompatActivity {
@@ -16,9 +18,14 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_editor);
+
+        ViewObjectsHolder.init(this);
+
+        bindListners();
+
         new MaterialDialog.Builder(this)
                 .title("Settings")
-                .positiveText("Start")
+                .positiveText("Start writing")
                 .cancelable(false)
                 .customView(R.layout.activity_settings, true)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -29,18 +36,32 @@ public class EditorActivity extends AppCompatActivity {
                     public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                         RadioGroup modeSelector = (RadioGroup) materialDialog.findViewById(R.id.settings_mode);
                         int selectedMode = modeSelector.getCheckedRadioButtonId();
-                        Slider timeoutSlider = (Slider) findViewById(R.id.settings_timeoutSlider);
-                        timeOut = timeoutSlider.getValue();
+                        Slider timeoutSlider = (Slider) materialDialog.findViewById(R.id.settings_timeoutSlider);
+                        timeOut = timeoutSlider.getValue() * 1000;
 
                         if (selectedMode == R.id.settings_mode_1) {
-
+                            TimerHandler.getInstance().startCountDown(new DialogPunishment(), timeOut);
                         } else {
 
                         }
                     }
                 })
                 .show();
+    }
 
+    @Override
+    protected void onPause() {
+        TimerHandler.getInstance().pauseClock();
+        super.onPause();
+    }
 
+    @Override
+    protected void onResume() {
+        TimerHandler.getInstance().resume();
+        super.onResume();
+    }
+
+    private void bindListners() {
+        ViewObjectsHolder.getPauseButton().setOnClickListener(new PauseButtonClickListner());
     }
 }
