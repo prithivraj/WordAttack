@@ -5,11 +5,16 @@
 package com.extremeboredom.wordattack.punishment;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 
-public class NoisePunishment implements Punishment {
+import com.extremeboredom.wordattack.R;
+
+public class NoisePunishment extends DialogPunishment {
 
     @Override
     public void punish(Activity activity) {
-
+        super.punish(activity);
+        final MediaPlayer mp = MediaPlayer.create(activity, R.raw.noise);
+        mp.start();
     }
 }

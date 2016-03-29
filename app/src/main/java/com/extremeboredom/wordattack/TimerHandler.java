@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.os.CountDownTimer;
 
 import com.extremeboredom.wordattack.punishment.Punishment;
-import com.extremeboredom.wordattack.utils.ToastUtils;
 
 public class TimerHandler {
     private static long timeout = -1;
@@ -49,10 +48,10 @@ public class TimerHandler {
             public void onFinish() {
                 ViewObjectsHolder.getProgressBar().setProgress(0);
                 Activity activity = ViewObjectsHolder.getActivityInstance();
-                if (activity.hasWindowFocus()) {
+                if (currentPunishment != null && activity.hasWindowFocus()) {
                     currentPunishment.punish(ViewObjectsHolder.getActivityInstance());
                 } else {
-                    ToastUtils.makeToastLong(activity, "Hi!");
+                    //ToastUtils.makeToastLong(activity, "Hi!");
                     //TODO: Send push notification
                 }
             }
@@ -78,5 +77,9 @@ public class TimerHandler {
         lastTickedTime = secs;
         currentPunishment = p;
         resume();
+    }
+
+    public void relaxPunishments() {
+        currentPunishment = null;
     }
 }

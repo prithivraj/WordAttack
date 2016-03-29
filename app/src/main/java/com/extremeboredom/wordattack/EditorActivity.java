@@ -13,7 +13,9 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.beardedhen.androidbootstrap.font.FontAwesome;
 import com.extremeboredom.wordattack.callbacks.PauseButtonClickListner;
 import com.extremeboredom.wordattack.punishment.DialogPunishment;
+import com.extremeboredom.wordattack.punishment.LoseWorkPunishment;
 import com.extremeboredom.wordattack.punishment.NoisePunishment;
+import com.extremeboredom.wordattack.punishment.Punishment;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -46,16 +48,23 @@ public class EditorActivity extends AppCompatActivity {
                     public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                         RadioGroup modeSelector = (RadioGroup) materialDialog.findViewById(R.id.settings_mode);
                         int selectedMode = modeSelector.getCheckedRadioButtonId();
+
                         DiscreteSeekBar timeoutSlider = (DiscreteSeekBar) materialDialog.findViewById(R.id.settings_timeoutSlider);
                         timeOut = timeoutSlider.getProgress() * 1000;
 
-                        if (selectedMode == R.id.settings_mode_1) {
-                            TimerHandler.getInstance().startCountDown(new DialogPunishment(), timeOut);
-                        } else if (selectedMode == R.id.settings_mode_2) {
-                            TimerHandler.getInstance().startCountDown(new NoisePunishment(), timeOut);
-                        } else if (selectedMode == R.id.settings_mode_3) {
+                        DiscreteSeekBar wordLimit = (DiscreteSeekBar) materialDialog.findViewById(R.id.settings_wordlimitSlider);
+                        int maxWordLimit = wordLimit.getProgress();
 
+                        Punishment currentPunishment = null;
+                        if (selectedMode == R.id.settings_mode_1) {
+                            currentPunishment = new DialogPunishment();
+                        } else if (selectedMode == R.id.settings_mode_2) {
+                            currentPunishment = new NoisePunishment();
+                        } else if (selectedMode == R.id.settings_mode_3) {
+                            currentPunishment = new LoseWorkPunishment(ViewObjectsHolder.getEditor());
                         }
+                        TimerHandler.getInstance().startCountDown(currentPunishment, timeOut);
+                        CurrentSetting.setInstance(new CurrentSetting(maxWordLimit, currentPunishment));
                     }
                 })
                 .build();
@@ -96,5 +105,9 @@ public class EditorActivity extends AppCompatActivity {
                 settingsDialog.show();
             }
         });
+    }
+
+    public void showSettings() {
+        settingsDialog.show();
     }
 }

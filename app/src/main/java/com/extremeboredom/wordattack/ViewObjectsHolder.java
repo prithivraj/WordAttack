@@ -13,6 +13,8 @@ import com.beardedhen.androidbootstrap.BootstrapLabel;
 import com.beardedhen.androidbootstrap.BootstrapProgressBar;
 import com.extremeboredom.wordattack.callbacks.EditorTextWatcher;
 
+import java.util.StringTokenizer;
+
 public class ViewObjectsHolder {
 
     private static BootstrapProgressBar progressBar = null;
@@ -26,9 +28,10 @@ public class ViewObjectsHolder {
         progressBar.setStriped(false);
         progressBar.setAnimated(true);
         editor = (EditText) editorActivity.findViewById(R.id.main_editor);
+        editor.removeTextChangedListener(new EditorTextWatcher());
+        editor.setText("");
         wordCount = (BootstrapLabel) editorActivity.findViewById(R.id.wordCount);
         globalInstance = editorActivity;
-        editor.addTextChangedListener(new EditorTextWatcher());
         String savedText = PreferenceManager.getDefaultSharedPreferences(editorActivity).getString("content", "");
         int start = PreferenceManager.getDefaultSharedPreferences(editorActivity).getInt("start", 0);
         int end = PreferenceManager.getDefaultSharedPreferences(editorActivity).getInt("end", 0);
@@ -38,6 +41,10 @@ public class ViewObjectsHolder {
             editor.setText(savedText);
             editor.setSelection(start, end);
         }
+        StringTokenizer st = new StringTokenizer(savedText.toString());
+        int words = st.countTokens();
+        wordCount.setText(words + " words");
+        editor.addTextChangedListener(new EditorTextWatcher());
         pauseButton = (BootstrapButton) editorActivity.findViewById(R.id.main_pause);
     }
 
@@ -59,6 +66,10 @@ public class ViewObjectsHolder {
 
     public static int getSelectionEnd() {
         return editor.getSelectionEnd();
+    }
+
+    public static EditText getEditor() {
+        return editor;
     }
 
     public static BootstrapLabel getWordCount() {
