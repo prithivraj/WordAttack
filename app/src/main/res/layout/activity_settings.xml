@@ -6,10 +6,90 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        app:bootstrapBrand="primary"
+        app:bootstrapText="Your target word limit "
+        app:fontAwesomeIcon="fa_align_left" />
+
+    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+        android:id="@+id/settings_wordlimitSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dsb_max="1000"
+        app:dsb_min="15" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="2 words"
+            android:textSize="10sp" />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="1000 words"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        app:bootstrapBrand="primary"
+        app:bootstrapText="Maximum allowed idle time"
+        app:fontAwesomeIcon="fa_align_left" />
+
+    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+        android:id="@+id/settings_timeoutSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dsb_max="120"
+        app:dsb_min="10" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="10 Seconds"
+            android:textSize="10sp" />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="120 Seconds"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        app:bootstrapBrand="primary"
+        app:bootstrapText="and if you're idle for longer than that.."
+        app:fontAwesomeIcon="fa_align_left" />
+
     <RadioGroup
         android:id="@+id/settings_mode"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -18,34 +98,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Mode 1" />
+            android:text="Show a dialog (Easy)" />
 
         <RadioButton
             android:id="@+id/settings_mode_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mode 2" />
+            android:text="Make annoying noises (Medium)" />
+
+        <RadioButton
+            android:id="@+id/settings_mode_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete all contents (Hard)" />
 
     </RadioGroup>
 
-    <com.beardedhen.androidbootstrap.AwesomeTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Timeout (in seconds): "
-        android:textColor="@color/colorAccent" />
-
-    <com.rey.material.widget.Slider
-        android:id="@+id/settings_timeoutSlider"
-        style="@style/Material.Widget.Slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        app:sl_discreteMode="true"
-        app:sl_maxValue="120"
-        app:sl_minValue="0"
-        app:sl_stepValue="10"
-        app:sl_value="10" />
 
 </LinearLayout>

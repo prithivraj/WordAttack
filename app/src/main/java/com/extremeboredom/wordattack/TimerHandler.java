@@ -34,6 +34,10 @@ public class TimerHandler {
         waitTimer.start();
     }
 
+    public boolean isRunning() {
+        return lastTickedTime > 0;
+    }
+
     private CountDownTimer createNewTimer(long startTime) {
         return new CountDownTimer(startTime, ONE_SECOND) {
             public void onTick(long millisUntilFinished) {
@@ -64,6 +68,7 @@ public class TimerHandler {
     public void pauseClock() {
         if (waitTimer != null) {
             waitTimer.cancel();
+            waitTimer = null;
         }
         return;
     }
