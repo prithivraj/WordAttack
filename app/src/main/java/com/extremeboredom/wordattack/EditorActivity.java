@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -21,8 +24,8 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 public class EditorActivity extends AppCompatActivity {
 
+    public static MenuItem shareIcon = null;
     MaterialDialog splashDialog = null;
-
     MaterialDialog settingsDialog = null;
 
     @Override
@@ -37,7 +40,7 @@ public class EditorActivity extends AppCompatActivity {
                 .build();
         settingsDialog = new MaterialDialog.Builder(this)
                 .title("Settings")
-                .positiveText("Start writing")
+                .positiveText("Write")
                 .cancelable(false)
                 .customView(R.layout.activity_settings, true)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -108,6 +111,69 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     public void showSettings() {
+        TimerHandler.getInstance().pauseClock();
         settingsDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TimerHandler.getInstance().relaxPunishments();
+        TimerHandler.getInstance().pauseClock();
+        TimerHandler.getInstance().resetClock();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        MenuItem settingsIcon = menu.findItem(R.id.menu_settings);
+        settingsIcon.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (shareIcon.isVisible()) {
+                    new MaterialDialog.Builder(ViewObjectsHolder.getActivityInstance())
+                            .title("New writing?")
+                            .positiveText("Change settings")
+                            .content("Do you want to adjust the settings of this session or start a new one?")
+                            .cancelable(true)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                    showSettings();
+                                }
+                            })
+                            .negativeText("New text")
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                    ViewObjectsHolder.init(ViewObjectsHolder.getActivityInstance());
+                                    shareIcon.setVisible(false);
+                                    showSettings();
+                                }
+                            })
+                            .show();
+                } else {
+                    showSettings();
+                }
+                return false;
+            }
+        });
+
+        shareIcon = menu.findItem(R.id.menu_share);
+        shareIcon.setVisible(false);
+
+        shareIcon.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String s = ViewObjectsHolder.getEditor().getText().toString();
+                ShareUtils.addToClipboard(ViewObjectsHolder.getActivityInstance(), s);
+                ShareUtils.shareText(ViewObjectsHolder.getActivityInstance(), s);
+                return false;
+            }
+        });
+        return true;
+
     }
 }

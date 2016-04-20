@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.extremeboredom.wordattack.TimerHandler;
 import com.extremeboredom.wordattack.ViewObjectsHolder;
+import com.extremeboredom.wordattack.callbacks.EditorTextWatcher;
 
 public class TimerEditText extends EditText {
     public TimerEditText(Context context) {
@@ -34,6 +35,12 @@ public class TimerEditText extends EditText {
             PreferenceManager.getDefaultSharedPreferences(ViewObjectsHolder.getActivityInstance()).edit().putInt("start", getSelectionStart()).commit();
             PreferenceManager.getDefaultSharedPreferences(ViewObjectsHolder.getActivityInstance()).edit().putInt("end", getSelectionEnd()).commit();
         }
-        TimerHandler.getInstance().resetClock();
+
+        if (EditorTextWatcher.completedDialog != null && EditorTextWatcher.completedDialog.isShowing()) {
+
+        } else {
+            TimerHandler.getInstance().resetClock();
+        }
+
     }
 }

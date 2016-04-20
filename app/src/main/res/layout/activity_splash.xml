@@ -22,7 +22,7 @@
             android:textSize="50sp"
             app:bootstrapBrand="primary"
             app:bootstrapSize="md"
-            app:fontAwesomeIcon="fa_reddit_alien"
+            app:fontAwesomeIcon="fa_briefcase"
             app:showOutline="false" />
 
         <LinearLayout
