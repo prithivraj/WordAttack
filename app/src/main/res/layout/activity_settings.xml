@@ -110,7 +110,7 @@
             android:id="@+id/settings_mode_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delete all contents (Hard)" />
+            android:text="Lose the last few words (Hard)" />
 
     </RadioGroup>
 

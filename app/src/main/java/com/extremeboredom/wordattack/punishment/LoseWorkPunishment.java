@@ -23,8 +23,8 @@ public class LoseWorkPunishment implements Punishment {
     public void punish(Activity activity) {
         new MaterialDialog.Builder(activity)
                 .title("Bad news")
-                .positiveText("Start over")
-                .content("I hate to say this, but your content is gone. It's time you start focusing on your writing.")
+                .positiveText("Resume Writing")
+                .content("I hate to say this, but some of your content is gone. It's time you start focusing on your writing.")
                 .cancelable(false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -33,6 +33,10 @@ public class LoseWorkPunishment implements Punishment {
                     }
                 })
                 .show();
-        attachedEdittext.setText("");
+        CharSequence text = attachedEdittext.getText();
+        int loseCharsCount = 30;
+        int end = text.length() < loseCharsCount ? 0 : text.length() - loseCharsCount;
+        attachedEdittext.setText(text.subSequence(0, end));
+        attachedEdittext.setSelection(attachedEdittext.length());
     }
 }
