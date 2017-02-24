@@ -25,7 +25,7 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 public class EditorActivity extends AppCompatActivity {
 
     public static MenuItem shareIcon = null;
-    MaterialDialog splashDialog = null;
+    MaterialDialog splashDialog = null;//test
     MaterialDialog settingsDialog = null;
 
     @Override
