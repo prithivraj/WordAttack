@@ -44,7 +44,6 @@ public class EditorActivity extends AppCompatActivity {
                 .cancelable(false)
                 .customView(R.layout.activity_settings, true)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    private int selectedModeID = 0;
                     private int timeOut = 0;
 
                     @Override
